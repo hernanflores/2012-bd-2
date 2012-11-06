@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'dueOs.label', default: 'DueOs')}" />
+		<g:set var="entityName" value="${message(code: 'dueOs.label', default: 'Dueños')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 	</head>
 	<body>
@@ -20,6 +20,14 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
+			<fieldset class="form">
+			    <g:form action="list" method="GET">
+			        <div class="fieldcontain">
+			            <label for="query">Buscar por apellido:</label>
+			            <g:textField name="query" value="${params.query}"/>
+			        </div>
+			    </g:form>
+			</fieldset>
 			<table>
 				<thead>
 					<tr>

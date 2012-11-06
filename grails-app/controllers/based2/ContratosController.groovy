@@ -12,7 +12,21 @@ class ContratosController {
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        [contratosInstanceList: Contratos.list(params), contratosInstanceTotal: Contratos.count()]
+		def list = Contratos.list (params)
+		 
+		if ( params.query ) {
+			List<Contratos> newList = new ArrayList<Contratos>()
+			list.each{
+				CompradoresInquilinos titular = it.titular 
+				println titular
+				if(titular.apellido.toLowerCase().contains(params.query.toLowerCase())){
+					newList.add(it)
+				}
+			}
+			list = newList
+		}
+		
+        [contratosInstanceList: list, contratosInstanceTotal: Contratos.count()]
     }
 
     def create() {

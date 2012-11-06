@@ -12,7 +12,12 @@ class PropiedadesController {
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        [propiedadesInstanceList: Propiedades.list(params), propiedadesInstanceTotal: Propiedades.count()]
+		def list = Propiedades.createCriteria().list (params) {
+			if ( params.query ) {
+				ilike("direccion", "%${params.query}%")
+			}
+		}
+        [propiedadesInstanceList: list, propiedadesInstanceTotal: list.totalCount]
     }
 
     def create() {

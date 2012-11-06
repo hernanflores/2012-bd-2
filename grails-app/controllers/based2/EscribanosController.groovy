@@ -12,7 +12,12 @@ class EscribanosController {
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        [escribanosInstanceList: Escribanos.list(params), escribanosInstanceTotal: Escribanos.count()]
+		def list = Escribanos.createCriteria().list (params) {
+			if ( params.query ) {
+				ilike("apellido", "%${params.query}%")
+			}
+		}
+        [escribanosInstanceList: list, escribanosInstanceTotal: list.totalCount]
     }
 
     def create() {

@@ -12,7 +12,12 @@ class DueOsController {
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        [dueOsInstanceList: DueOs.list(params), dueOsInstanceTotal: DueOs.count()]
+		def list = DueOs.createCriteria().list (params) {
+			if ( params.query ) {
+				ilike("apellido", "%${params.query}%")
+			}
+		}
+        [dueOsInstanceList: list, dueOsInstanceTotal: list.totalCount]
     }
 
     def create() {

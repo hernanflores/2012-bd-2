@@ -86,6 +86,7 @@
 			<h1>Manejo de Entidades</h1>
 			<ul>
 						<li class="controller"><g:link controller="compradoresInquilinos">Compradores/Inquilinos</g:link></li>
+						<li class="controller"><g:link controller="personasTelefonos">Telefonos de Contacto</g:link></li>
 						<li class="controller"><g:link controller="contratos">Contratos</g:link></li>
 						<li class="controller"><g:link controller="dueOs">Dueños</g:link></li>
 						<li class="controller"><g:link controller="escribanos">Escribanos</g:link></li>

@@ -12,7 +12,13 @@ class CompradoresInquilinosController {
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        [compradoresInquilinosInstanceList: CompradoresInquilinos.list(params), compradoresInquilinosInstanceTotal: CompradoresInquilinos.count()]
+		def list = CompradoresInquilinos.createCriteria().list (params) {
+			if ( params.query ) {
+				ilike("apellido", "%${params.query}%")
+			}
+		}
+
+        [compradoresInquilinosInstanceList: list, compradoresInquilinosInstanceTotal: list.totalCount]
     }
 
     def create() {

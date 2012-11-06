@@ -72,7 +72,13 @@
 		<g:message code="contratos.propiedad.label" default="Propiedad" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="propiedad" name="propiedad.id" from="${based2.Propiedades.list()}" optionKey="id" required="" value="${contratosInstance?.propiedad?.id}" class="many-to-one"/>
+	<g:select id="propiedad" name="propiedad.id" from="${based2.Propiedades.createCriteria().list{
+			and{
+				eq("estado","disponible")
+				eq("tipoContrato","alquiler")
+				}
+			}}" optionKey="id" required="" value="${contratosInstance?.propiedad?.id}" class="many-to-one"/>
+	<!-- g:select id="propiedad" name="propiedad.id" from="${based2.Propiedades.list()}" optionKey="id" required="" value="${contratosInstance?.propiedad?.id}" class="many-to-one"/ -->
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: contratosInstance, field: 'titular', 'error')} required">

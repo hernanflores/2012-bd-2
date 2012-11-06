@@ -20,6 +20,14 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
+			<fieldset class="form">
+			    <g:form action="list" method="GET">
+			        <div class="fieldcontain">
+			            <label for="query">Buscar por titular:</label>
+			            <g:textField name="query" value="${params.query}"/>
+			        </div>
+			    </g:form>
+			</fieldset>
 			<table>
 				<thead>
 					<tr>
@@ -31,8 +39,9 @@
 						<g:sortableColumn property="inicioOcup" title="${message(code: 'contratos.inicioOcup.label', default: 'Inicio Ocup')}" />
 					
 						<g:sortableColumn property="fechaCont" title="${message(code: 'contratos.fechaCont.label', default: 'Fecha Cont')}" />
+						
+						<g:sortableColumn property="titular" title="${message(code: 'contratos.titular.label', default: 'Titular')}" />
 					
-						<g:sortableColumn property="status" title="${message(code: 'contratos.status.label', default: 'Status')}" />
 					
 						<th><g:message code="contratos.escribano.label" default="Escribano" /></th>
 					
@@ -50,8 +59,8 @@
 					
 						<td><g:formatDate date="${contratosInstance.fechaCont}" /></td>
 					
-						<td>${fieldValue(bean: contratosInstance, field: "status")}</td>
-					
+						<td>${fieldValue(bean: contratosInstance, field: "titular")}</td>
+						
 						<td>${fieldValue(bean: contratosInstance, field: "escribano")}</td>
 					
 					</tr>

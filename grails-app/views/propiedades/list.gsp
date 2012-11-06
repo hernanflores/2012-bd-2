@@ -20,6 +20,14 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
+			<fieldset class="form">
+			    <g:form action="list" method="GET">
+			        <div class="fieldcontain">
+			            <label for="query">Buscar por direccion:</label>
+			            <g:textField name="query" value="${params.query}"/>
+			        </div>
+			    </g:form>
+			</fieldset>
 			<table>
 				<thead>
 					<tr>
@@ -33,8 +41,9 @@
 						<g:sortableColumn property="clasificacion" title="${message(code: 'propiedades.clasificacion.label', default: 'Clasificacion')}" />
 					
 						<g:sortableColumn property="padronCatastral" title="${message(code: 'propiedades.padronCatastral.label', default: 'Padron Catastral')}" />
+						
+						<g:sortableColumn property="direccion" title="${message(code: 'propiedades.direccion.label', default: 'Dirección')}" />
 					
-						<g:sortableColumn property="status" title="${message(code: 'propiedades.status.label', default: 'Status')}" />
 					
 					</tr>
 				</thead>
@@ -51,8 +60,9 @@
 						<td>${fieldValue(bean: propiedadesInstance, field: "clasificacion")}</td>
 					
 						<td>${fieldValue(bean: propiedadesInstance, field: "padronCatastral")}</td>
+						
+						<td>${fieldValue(bean: propiedadesInstance, field: "direccion")}</td>
 					
-						<td>${fieldValue(bean: propiedadesInstance, field: "status")}</td>
 					
 					</tr>
 				</g:each>
