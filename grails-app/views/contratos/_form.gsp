@@ -1,5 +1,16 @@
 <%@ page import="based2.Contratos" %>
-
+<script language="javascript">
+function showmydiv() {
+	
+	if(document.getElementById('wrapperinvisible').style.visibility == "hidden"){ 
+		document.getElementById('wrapperinvisible').style.visibility = "visible";
+		document.getElementById('esconder').style.visibility = "hidden";
+	}else{ 
+		document.getElementById('wrapperinvisible').style.visibility = "hidden"; 
+		document.getElementById('esconder').style.visibility = "visible";
+	} 
+}
+</script>
 
 
 <div class="fieldcontain ${hasErrors(bean: contratosInstance, field: 'nroSerie', 'error')} required">
@@ -81,7 +92,7 @@
 	<!-- g:select id="propiedad" name="propiedad.id" from="${based2.Propiedades.list()}" optionKey="id" required="" value="${contratosInstance?.propiedad?.id}" class="many-to-one"/ -->
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: contratosInstance, field: 'titular', 'error')} required">
+<div id="esconder" class="fieldcontain ${hasErrors(bean: contratosInstance, field: 'titular', 'error')} required">
 	<label for="titular">
 		<g:message code="contratos.titular.label" default="Titular" />
 		<span class="required-indicator">*</span>
@@ -97,10 +108,11 @@
 		<g:message code="contratos.titular.label" default="¿Crear nuevo titular?" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:checkBox name="crearTitular" value="${false}" />
+	<g:checkBox name="crearTitular" value="${false}"  onclick="showmydiv()"/>
 </div>
 
-
+<div id="wrapperinvisible" style="visibility:hidden">
+	<span class="required-indicator">Todos los campos son requeridos</span>
 	<div class="fieldcontain ${hasErrors(bean: contratosInstance, field: 'nombre', 'error')} ">
 	<label for="nombre">
 		<g:message code="contratos.nombre.label" default="Nombre Titular" />
@@ -149,4 +161,5 @@
 		
 	</label>
 	<g:textField name="telefonoDeContacto" value="${contratosInstance?.telefonoDeContacto}"/>
+</div>
 </div>

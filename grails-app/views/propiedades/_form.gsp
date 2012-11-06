@@ -1,6 +1,17 @@
 <%@ page import="based2.Propiedades" %>
 
-
+<script language="javascript">
+function showmydiv() {
+	
+	if(document.getElementById('wrapperinvisible').style.visibility == "hidden"){ 
+		document.getElementById('wrapperinvisible').style.visibility = "visible";
+		document.getElementById('esconder').style.visibility = "hidden";
+	}else{ 
+		document.getElementById('wrapperinvisible').style.visibility = "hidden"; 
+		document.getElementById('esconder').style.visibility = "visible";
+	} 
+}
+</script>
 
 <div class="fieldcontain ${hasErrors(bean: propiedadesInstance, field: 'tipoContrato', 'error')} ">
 	<label for="tipoContrato">
@@ -66,15 +77,6 @@
 	<g:textField name="direccion" value="${propiedadesInstance?.direccion}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: propiedadesInstance, field: 'dueño', 'error')} required">
-	<label for="dueño">
-		<g:message code="propiedades.dueño.label" default="Dueño" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="dueño" name="dueño.id" from="${based2.DueOs.list()}" optionKey="id" required="" value="${propiedadesInstance?.dueño?.id}" class="many-to-one"/>
-</div>
-
-
 <div class="fieldcontain ${hasErrors(bean: propiedadesInstance, field: 'supCubierta', 'error')} required">
 	<label for="supCubierta">
 		<g:message code="propiedades.supCubierta.label" default="Sup Cubierta" />
@@ -99,3 +101,60 @@
 	<g:select id="zona" name="zona.id" from="${based2.Zonas.list()}" optionKey="id" required="" value="${propiedadesInstance?.zona?.id}" class="many-to-one"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: propiedadesInstance, field: 'dueño', 'error')} required">
+	<label for="dueño">
+		<g:message code="propiedades.dueño.label" default="Dueño" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select id="dueño" name="dueño.id" from="${based2.DueOs.list()}" optionKey="id" required="" value="${propiedadesInstance?.dueño?.id}" class="many-to-one"/>
+</div>
+
+<!-- FIELDS PARA ALTA TITULAR -->
+
+<div class="fieldcontain required">
+	<label for="crearTitular">
+		<g:message code="propiedades.titular.label" default="¿Crear nuevo Dueño?" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:checkBox name="crearTitular" value="${false}" onclick="showmydiv()"/>
+</div>
+
+<div id="wrapperinvisible" style="visibility:hidden">
+	<span class="required-indicator">Todos los campos son requeridos</span>
+	<div class="fieldcontain ${hasErrors(bean: propiedadesInstance, field: 'nombre', 'error')} ">
+	<label for="nombre">
+		<g:message code="propiedades.nombre.label" default="Nombre Dueño" />
+	</label>
+	<g:textField name="nombre" value="${propiedadesInstance?.nombre}"/>
+	</div>
+		
+	<div class="fieldcontain ${hasErrors(bean: propiedadesInstance, field: 'apellido', 'error')} ">
+	<label for="apellido">
+		<g:message code="propiedades.apellido.label" default="Apellido Dueño" />
+	</label>
+	<g:textField name="apellido" value="${propiedadesInstance?.apellido}"/>
+	</div>
+		
+	<div class="fieldcontain ${hasErrors(bean: propiedadesInstance, field: 'domicilio', 'error')} ">
+	<label for="domicilio">
+		<g:message code="propiedades.domicilio.label" default="Domicilio Dueño" />
+	</label>
+	<g:textField name="domicilio" value="${propiedadesInstance?.domicilio}"/>
+	</div>
+		
+	<div class="fieldcontain ${hasErrors(bean: propiedadesInstance, field: 'documento', 'error')} ">
+	<label for="documento">
+		<g:message code="propiedades.documento.label" default="DNI Dueño" />
+	</label>
+	<g:textField name="documento" value="${propiedadesInstance?.documento}"/>
+	</div>
+
+	
+	<div class="fieldcontain ${hasErrors(bean: propiedadesInstance, field: 'telefonoDeContacto', 'error')} ">
+	<label for="telefonoDeContacto">
+		<g:message code="propiedades.telefonoDeContacto.label" default="Telefono de Contacto" />
+	</label>
+	<g:textField name="telefonoDeContacto" value="${propiedadesInstance?.telefonoDeContacto}"/>
+	</div>
+
+</div>

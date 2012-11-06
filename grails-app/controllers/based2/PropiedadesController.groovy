@@ -26,6 +26,20 @@ class PropiedadesController {
 
     def save() {
         def propiedadesInstance = new Propiedades(params)
+		
+		if(params.crearTitular == 'on'){
+			DueOs due = new DueOs()
+			due.nombre =   params.nombre
+			due.apellido =   params.apellido
+			due.domicilio =   params.domicilio
+			due.documento =   Long.valueOf(params.documento as String)
+			
+			due.addToTelefonosContacto(new PersonasTelefonos(telefonoContacto : params.telefonoDeContacto))
+			due.save(flush: true)
+			
+			propiedadesInstance.dueño = due
+//			contratosInstance.titularId = titu.id
+		}
         if (!propiedadesInstance.save(flush: true)) {
             render(view: "create", model: [propiedadesInstance: propiedadesInstance])
             return

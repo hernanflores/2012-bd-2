@@ -13,8 +13,11 @@ class DueOsController {
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
 		def list = DueOs.createCriteria().list (params) {
+//			ne("status","borrado")
 			if ( params.query ) {
-				ilike("apellido", "%${params.query}%")
+//				and{
+					ilike("apellido", "%${params.query}%")
+//				}
 			}
 		}
         [dueOsInstanceList: list, dueOsInstanceTotal: list.totalCount]
@@ -101,7 +104,9 @@ class DueOsController {
         }
 
         try {
-            dueOsInstance.delete(flush: true)
+//            dueOsInstance.delete(flush: true)
+			dueOsInstance.status = "borrado"
+			dueOsInstance.save(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'dueOs.label', default: 'DueOs'), id])
             redirect(action: "list")
         }

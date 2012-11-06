@@ -22,6 +22,16 @@ class Propiedades {
 	
 	Long padronCatastral	//primary key
 	
+	/* Transients para el alta del dueño */
+	String lugarTrabajo
+	String nombre
+	String apellido
+	String domicilio
+	Long documento
+	
+	String telefonoDeContacto
+	static transients = ['telefonoDeContacto', 'documento', 'domicilio', 'apellido','nombre', 'lugarTrabajo' ]
+	
 	String toString() {
 		return direccion
 	}
