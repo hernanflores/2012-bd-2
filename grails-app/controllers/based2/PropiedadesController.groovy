@@ -1,5 +1,6 @@
 package based2
 
+import grails.converters.*
 import org.springframework.dao.DataIntegrityViolationException
 
 class PropiedadesController {
@@ -109,7 +110,9 @@ class PropiedadesController {
         }
 
         try {
-            propiedadesInstance.delete(flush: true)
+//            propiedadesInstance.delete(flush: true)
+			propiedadesInstance.estado = "eliminada"
+			propiedadesInstance.save(flush:true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'propiedades.label', default: 'Propiedades'), id])
             redirect(action: "list")
         }
@@ -118,4 +121,29 @@ class PropiedadesController {
             redirect(action: "show", id: id)
         }
     }
+	
+	def ajaxDueos = {
+		def query = {
+			or {
+			 like("nombre", "${params.term}%") // term is the parameter send by jQuery autocomplete
+			 like("apellido", "${params.term}%")
+			}
+			projections { // good to select only the required columns.
+				property("id")
+				property("apellido")
+				property("nombre")
+			   }
+		   }
+		   def clist = DueOs.createCriteria().list(query) // execute  to the get the list of companies
+		   def dueñosSelectList = [] // to add each company details
+		   clist.each {
+			def dueñosMap = [:] // add to map. jQuery autocomplete expects the JSON object to be with id/label/value.
+			dueñosMap.put("id", it[0])
+			dueñosMap.put("label", it[2] +" "+ it[1])
+			dueñosMap.put("value", it[2] +" "+ it[1])
+			dueñosMap.put("apellido", it[1]) // will use this to pre-populate the Emp Id
+			dueñosSelectList.add(dueñosMap) // add to the arraylist
+		 }
+		 render (dueñosSelectList as JSON)
+	}
 }

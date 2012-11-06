@@ -1,5 +1,6 @@
 package based2
 
+import grails.converters.*
 import org.springframework.dao.DataIntegrityViolationException
 
 class VentasController {
@@ -120,7 +121,11 @@ class VentasController {
         }
 
         try {
-            ventasInstance.delete(flush: true)
+//            ventasInstance.delete(flush: true)
+			Propiedades prop = ventasInstance.propiedad
+			prop.estado = "disponible"
+			prop.save(flush:true)
+			
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'ventas.label', default: 'Ventas'), id])
             redirect(action: "list")
         }
@@ -129,4 +134,56 @@ class VentasController {
             redirect(action: "show", id: id)
         }
     }
+	
+	def ajaxPropiedades = {
+		def query = {
+			and{
+				eq("estado","disponible")
+				eq("tipoContrato","venta")
+			}
+			or {
+			 ilike("direccion", "${params.term}%") // term is the parameter send by jQuery autocomplete
+			}
+			projections { // good to select only the required columns.
+				property("id")
+				property("direccion")
+			   }
+		   }
+		   def clist = Propiedades.createCriteria().list(query) // execute  to the get the list of companies
+		   def propList = [] // to add each company details
+		   clist.each {
+				def propMap = [:] // add to map. jQuery autocomplete expects the JSON object to be with id/label/value.
+				propMap.put("id", it[0])
+				propMap.put("label", it[1])
+				propMap.put("value", it[1])
+				propMap.put("direccion", it[1]) // will use this to pre-populate the Emp Id
+				propList.add(propMap) // add to the arraylist
+		 }
+		 render (propList as JSON)
+	}
+	
+	def ajaxComprador = {
+		def query = {
+			or {
+			 ilike("nombre", "${params.term}%") // term is the parameter send by jQuery autocomplete
+			 ilike("apellido", "${params.term}%")
+			}
+			projections { // good to select only the required columns.
+				property("id")
+				property("apellido")
+				property("nombre")
+			   }
+		   }
+		   def clist = CompradoresInquilinos.createCriteria().list(query) // execute  to the get the list of companies
+		   def compradorList = [] // to add each company details
+		   clist.each {
+			def compradorMap = [:] // add to map. jQuery autocomplete expects the JSON object to be with id/label/value.
+			compradorMap.put("id", it[0])
+			compradorMap.put("label", it[2] +" "+ it[1])
+			compradorMap.put("value", it[2] +" "+ it[1])
+			compradorMap.put("apellido", it[1]) // will use this to pre-populate the Emp Id
+			compradorList.add(compradorMap) // add to the arraylist
+		 }
+		 render (compradorList as JSON)
+	}
 }

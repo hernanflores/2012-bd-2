@@ -1,5 +1,49 @@
 <%@ page import="based2.Propiedades" %>
 
+<r:require module="jquery-ui"/>
+<g:javascript library="jquery" />
+
+<style>
+    .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+    }
+    /* IE 6 doesn't support max-height
+     * we use height instead, but this forces the menu to always be this tall
+     */
+    * html .ui-autocomplete {
+        height: 100px;
+    }
+    </style>
+		<g:javascript>
+            $(document).ready(function() {
+               $('#comauto').autocomplete({
+					 source: function(request, response){
+					   $.ajax({
+					    url: "/based2/propiedades/ajaxDueos", // remote datasource
+					    data: request,
+					    success: function(data){
+					     response(data); // set the response
+					    },
+					    error: function(){ // handle server errors
+					     $.jGrowl("Unable to retrieve Companies", {
+					      theme: 'ui-state-error ui-corner-all'   
+					     });
+					    }
+					   });
+					  },
+					  minLength: 2, // triggered only after minimum 2 characters have been entered.
+					  select: function(event, ui) { // event handler when user selects a company from the list.
+					   $("#dueño\\.id").val(ui.item.id); // update the hidden field.
+					   $("#empId").val(ui.item.nasSymbol + "-") // populate the employee field with the nasdaq symbol.
+					  }
+					 });
+					});    
+        </g:javascript>
+
+
 <script language="javascript">
 function showmydiv() {
 	
@@ -106,8 +150,11 @@ function showmydiv() {
 		<g:message code="propiedades.dueño.label" default="Dueño" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="dueño" name="dueño.id" from="${based2.DueOs.list()}" optionKey="id" required="" value="${propiedadesInstance?.dueño?.id}" class="many-to-one"/>
+	<g:hiddenField name="dueño.id"></g:hiddenField> 
+	<g:textField name="comauto" id="comauto" style="width: 300px;"> </g:textField>
+	<!-- g:select id="dueño" name="dueño.id" from="${based2.DueOs.list()}" optionKey="id" required="" value="${propiedadesInstance?.dueño?.id}" class="many-to-one"/ -->
 </div>
+
 
 <!-- FIELDS PARA ALTA TITULAR -->
 

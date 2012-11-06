@@ -38,7 +38,7 @@ class Propiedades {
 
     static constraints = {
 		tipoContrato(inList:["venta", "alquiler"])
-		estado(inList:["vendida", "alquilada", "disponible"])
+		estado(inList:["vendida", "alquilada", "disponible", "eliminada"])
 		tipo(inList:["departamento", "casa", "quinta", "hotel", "chalet", "cabaña", "local comercial"])
 		clasificacion(inList:["residencial", "familiar", "no habitable", "comercial"])
 		padronCatastral(unique:true)
